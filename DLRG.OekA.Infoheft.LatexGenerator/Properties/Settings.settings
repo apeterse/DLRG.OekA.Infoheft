@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DLRG.OekA.Infoheft.LatexGenerator.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ImportPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">c:\Users\arno\Documents\dlrg\softwareprojekte\InfoHeftExportNeu\XML</Value>
+    </Setting>
+    <Setting Name="ExportPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">c:\Users\arno\Documents\Visual Studio 2015\Projects\DLRG.OekA.Infoheft\DLRG.OekA.Infoheft.LatexGenerator\bin\Debug\</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
