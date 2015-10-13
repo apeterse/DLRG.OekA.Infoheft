@@ -26,7 +26,7 @@ namespace DLRG.OekA.Infoheft.CourseDatabaseAccess.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("\nSERVER=localhost;DATABASE=dlrg;UID=arno;PASSWORD=2Krikkit;")]
+        [global::System.Configuration.DefaultSettingValueAttribute("\nSERVER=localhost;DATABASE=dlrg;UID=arno;PASSWORD=test;")]
         public string CourseDbConnectionString {
             get {
                 return ((string)(this["CourseDbConnectionString"]));

@@ -23,21 +23,16 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
 
             List<Course> lehrgangsList = db.GetCourseList(new DateTime(2016, 01, 01), new DateTime(2017, 01, 01));
 
-            //LatexBuilder.AddMainContentTable(sb);
-            //LatexBuilder.AddEditorial(sb);
-
             latexBuilder.AddAllCourses(sb, lehrgangsList);
-            //LatexBuilder.AddConditionPage(sb);
-            //LatexBuilder.AddSpeakerList(sb);
-            //LatexBuilder.AddContactList(sb);
-
+            
             latexBuilder.AddLatexFooter(sb);
-            using (StreamWriter sw = new StreamWriter(Path.Combine(Properties.Settings.Default.ExportPath, "teste.tex"), false, Encoding.UTF8))
+
+            var utf8WithoutBom = new System.Text.UTF8Encoding(false);
+            using (StreamWriter sw = new StreamWriter(Path.Combine(Properties.Settings.Default.ExportPath, "teste.tex"), false, utf8WithoutBom))
             {
                 sw.Write(sb.ToString());
                 sw.Close();
             }
-            
         }
     }
 }

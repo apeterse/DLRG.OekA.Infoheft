@@ -21,6 +21,7 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             sb.AppendLine(@"\documentclass[a4paper, 12pt]{book}");
             sb.AppendLine(@"\usepackage[utf8]{inputenc}");
             sb.AppendLine(@"\usepackage{textcomp} ");
+            sb.AppendLine(@"\usepackage[ngerman]{babel} ");
 
             sb.AppendLine(@"\renewcommand\familydefault{\sfdefault}");
             sb.AppendLine(@"\usepackage{fancyhdr}");
@@ -91,7 +92,6 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             sb.AppendLine(@"\end{tabular}");
             sb.AppendLine(@"\end{costdiv}");
 
-
             foreach (var termin in course.Dates)
             {
                 sb.AppendLine(@"\begin{detailsdiv}");
@@ -111,7 +111,6 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
                 sb.AppendLine(this.GetSeminarDetail("Zeit", termin.Parts[0].Start.ToLongDateString()) + " bis");
                 sb.AppendLine(this.GetSeminarDetail("", termin.Parts[0].End.ToLongDateString()));
 
-
                 sb.AppendLine(@"\end{minipage}");
                 sb.AppendLine(@"\end{tabular}");
                 sb.AppendLine(@"\end{detailsdiv}");
@@ -128,18 +127,22 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
         {
             // Todo: Muss noch für die anderen Teile umgesetzt werden
             return @"\dateEntry{" + coursePart[0].Start.ToString("dd.MM.") + " - " + coursePart[0].End.ToString("dd.MM.yyyy")
-                   + "}";
+                   + "} ";
         }
 
         private string ReplaceHtmlFormating(string beschreibung)
         {
-            // nur forläufig in html wandeln
-            //beschreibung = HttpUtility.HtmlEncode(beschreibung);
-
+            
 
             string tempResult = beschreibung.Replace(Environment.NewLine, @" \par ");
             tempResult = tempResult.Replace(((char)10).ToString(), @" \par ");
             tempResult = tempResult.Replace(("<br />").ToString(), @" \par ");
+            tempResult = tempResult.Replace(("&").ToString(), @"\& ");
+            tempResult = tempResult.Replace(("„").ToString(), @"\glqq ");
+            tempResult = tempResult.Replace(("“").ToString(), @"\grqq ");
+
+
+
 
             // auserdem müssen alle bak-slashes ersetzt werden
 
