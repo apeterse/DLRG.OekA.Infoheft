@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLRG.OekA.Infoheft", "DLRG.OekA.Infoheft\DLRG.OekA.Infoheft.csproj", "{0A58FBCB-6E87-4E92-813A-7105BC93EA50}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLRG.OekA.Infoheft.LatexGenerator", "DLRG.OekA.Infoheft.LatexGenerator\DLRG.OekA.Infoheft.LatexGenerator.csproj", "{896B58B7-6DDF-44FF-866B-F4AA93069D42}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLRG.OekA.Infoheft.Common", "DLRG.OekA.Infoheft.Common\DLRG.OekA.Infoheft.Common.csproj", "{D1428FBD-3490-436F-A1A9-11B78772D49C}"
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0A58FBCB-6E87-4E92-813A-7105BC93EA50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A58FBCB-6E87-4E92-813A-7105BC93EA50}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0A58FBCB-6E87-4E92-813A-7105BC93EA50}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A58FBCB-6E87-4E92-813A-7105BC93EA50}.Release|Any CPU.Build.0 = Release|Any CPU
 		{896B58B7-6DDF-44FF-866B-F4AA93069D42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{896B58B7-6DDF-44FF-866B-F4AA93069D42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{896B58B7-6DDF-44FF-866B-F4AA93069D42}.Release|Any CPU.ActiveCfg = Release|Any CPU

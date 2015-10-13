@@ -48,7 +48,6 @@
     <Compile Include="Course.cs" />
     <Compile Include="CourseDate.cs" />
     <Compile Include="CoursePart.cs" />
-    <Compile Include="InfoHeftFileAccess.cs" />
     <Compile Include="InfoHeftRules.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

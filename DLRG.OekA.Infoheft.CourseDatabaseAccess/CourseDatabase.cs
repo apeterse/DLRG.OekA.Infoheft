@@ -73,9 +73,6 @@ namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
                 courseDate.AP = Reader.GetString("ziel").Contains("AP Fortbildung: Ja");
                 courseDate.Juleica = Reader.GetString("ziel").Contains("JuLeiCa Fortbildung: Ja");
                 courseDate.Parts.Add(new CoursePart() {Start = Reader.GetDateTime("start_t"), End = Reader.GetDateTime("ende_t"), Location =  Reader.GetString("ort_t") });
-                
-
-                
 
                 var priceCommand = new MySqlCommand(@"select * from  `tbl_lehrgang_additional` 
                                                         where lehrgang_id = @lehrgangid and typ = 'kosten' and titel is not null",priceConnection);
@@ -90,22 +87,9 @@ namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
                 priceConnection.Close();
                 courseDate.Price = sb.ToString();
                 course.Dates.Add(courseDate);
-
-                // Kosten muss ich noch extra ermitteln
-
-
-
-
-
-
-
-
-
-
-                    Console.WriteLine(Reader[0]);
+                log.DebugFormat("Lehrgang {0} verarbeitet", course.Id);
             }
             result.Add(course);
-            
             
             return result;
         }
