@@ -26,7 +26,7 @@ namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
 
             MySqlCommand command = connection.CreateCommand();
             
-            command.CommandText = @"SELECT t.id, t.veranstalter, f.fachbereich ressort, t.beginn start_t, t.ende ende_t, t.ort ort_t,l.inhalt,l.untertitel, l.voraussetzung,
+            command.CommandText = @"SELECT l.id, t.veranstalter, f.fachbereich ressort, t.beginn start_t, t.ende ende_t, t.ort ort_t,l.inhalt,l.untertitel, l.voraussetzung,
                  l.start start_l, l.ende ende_l, l.lehrgang_nr,l.titel,l.ort ort_l, t.meldeschluss meldeschluss_t, l.meldeschluss meldeschluss_l ,
                  l.zielgruppe, l.ziel, l.leiter, l.fachbereich 
                  FROM `tbl_lehrgang` l
