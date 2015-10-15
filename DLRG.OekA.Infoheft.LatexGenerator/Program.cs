@@ -11,10 +11,19 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
     using DLRG.OekA.Infoheft.Common;
     using DLRG.OekA.Infoheft.CourseDatabaseAccess;
 
+    using log4net;
+    using log4net.Config;
+
     class Program
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(Program));
+
         static void Main(string[] args)
         {
+
+            XmlConfigurator.Configure();
+            log.Info("start");
+
             StringBuilder sb = new StringBuilder();
             LatexBuilder latexBuilder = new LatexBuilder();
             latexBuilder.AddLatexHeader(sb);

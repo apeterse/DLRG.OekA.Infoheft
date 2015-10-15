@@ -61,12 +61,12 @@ namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
                         course.Category = (CourseCategory)Reader.GetInt32("fachbereich");
                         course.Requirements = Reader.GetString("voraussetzung");
                         course.TargetAudience = Reader.GetString("zielgruppe");
-                        courseNo = Reader.GetString("lehrgang_nr");
                         course.AP = Reader.GetString("ziel").Contains("AP Fortbildung: Ja");
                         course.Juleica = Reader.GetString("ziel").Contains("JuLeiCa Fortbildung: Ja");
-                        var sb = GetPriceData(priceConnection, Reader.GetInt32("l.id"));
+                        var sb = GetPriceData(priceConnection, Reader.GetInt32("id"));
                         course.Price = sb.ToString();
                         result.Add(course);
+                        TitleSubtitleDesc = course.Title + course.Subtitle + course.Description;
                     }
 
                     courseDate = new CourseDate();
@@ -75,8 +75,9 @@ namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
                     courseDate.CheckinDeadline = Reader.GetDateTime("meldeschluss_l");
                     courseDate.Supervisor = Reader.GetString("Leiter");
                     courseDate.CheckinDeadline = Reader.GetDateTime("meldeschluss_l");
-                    courseDate.Id = Reader.GetInt32("l.id");
+                    courseDate.Id = Reader.GetInt32("id");
                     course.Dates.Add(courseDate);
+                    courseNo = courseDate.CourseNo;
                     
                     log.DebugFormat("Lehrgang {0} verarbeitet", courseDate.Id);
                 }
