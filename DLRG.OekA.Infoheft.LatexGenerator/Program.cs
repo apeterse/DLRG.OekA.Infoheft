@@ -23,6 +23,11 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
 
             List<Course> lehrgangsList = db.GetCourseList(new DateTime(2016, 01, 01), new DateTime(2017, 01, 01));
 
+            // hier die dubletten ermitteln
+
+            // dann die Lehrgänge in eine neue liste schreiben
+
+
             latexBuilder.AddAllCourses(sb, lehrgangsList);
             
             latexBuilder.AddLatexFooter(sb);

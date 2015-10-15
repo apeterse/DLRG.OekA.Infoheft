@@ -8,7 +8,6 @@
         {
             this.Dates = new List<CourseDate>();
         }
-        public int Id { get; set; }
 
         public List<CourseDate> Dates
         {
@@ -47,6 +46,42 @@
 
         }
 
-        public string Host { get; set; }
+        public string Host
+        {
+            get;
+            set;
+        }
+
+        public string Requirements
+        {
+            get;
+            set;
+        }
+
+        public string TargetAudience
+        {
+            get;
+            set;
+        }
+
+        public string Price
+        {
+            get;
+            set;
+        }
+
+        public bool Juleica
+        {
+            get;
+            set;
+
+        }
+
+        public bool AP
+        {
+            get;
+            set;
+
+        }
     }
 }

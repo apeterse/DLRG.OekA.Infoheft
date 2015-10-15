@@ -33,7 +33,7 @@ namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
                  join `tbl_fachbereich` f on l.fachbereich = f.id
                  left outer join  `tbl_termine` t on t.lehrgang = l.id 
                 where t.beginn > @startdate and t.beginn < @enddate
-                order by lehrgang_nr";
+                order by titel,untertitel,inhalt,lehrgang_nr";
             command.Parameters.AddWithValue("@startdate", startDate);
             command.Parameters.AddWithValue("@enddate", endDate);
 
@@ -41,57 +41,85 @@ namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
             connection.Open();
             Reader = command.ExecuteReader();
             Course course = new Course();
+            CourseDate courseDate= new CourseDate();
             string courseNo = string.Empty;
+            string TitleSubtitleDesc = string.Empty;
 
             while (Reader.Read())
             {
-                if (Reader.GetString("lehrgang_nr") != courseNo)
+                if (IsNewCourseDate(Reader, courseNo))
                 {
-                    if (courseNo != String.Empty)
+                    if (IsNewCourse(Reader, TitleSubtitleDesc))
                     {
+                        // general information
+                        course = new Course();
+                        GetHost(Reader, course);
+                        course.Department = Reader.GetString("ressort");
+                        course.Title = Reader.GetString("titel");
+                        course.Subtitle = Reader.GetString("untertitel");
+                        course.Description = Reader.GetString("inhalt");
+                        course.Category = (CourseCategory)Reader.GetInt32("fachbereich");
+                        course.Requirements = Reader.GetString("voraussetzung");
+                        course.TargetAudience = Reader.GetString("zielgruppe");
+                        courseNo = Reader.GetString("lehrgang_nr");
+                        course.AP = Reader.GetString("ziel").Contains("AP Fortbildung: Ja");
+                        course.Juleica = Reader.GetString("ziel").Contains("JuLeiCa Fortbildung: Ja");
+                        var sb = GetPriceData(priceConnection, Reader.GetInt32("l.id"));
+                        course.Price = sb.ToString();
                         result.Add(course);
                     }
-                    
-                    course = new Course();
-                    course.Id = Reader.GetInt32("id");
-                    GetHost(Reader, course);
-                    course.Department = Reader.GetString("ressort");
-                    course.Title = Reader.GetString("titel");
-                    course.Subtitle = Reader.GetString("untertitel");
-                    course.Description = Reader.GetString("inhalt");
-                    course.Category = (CourseCategory)Reader.GetInt32("fachbereich");
-                    courseNo = Reader.GetString("lehrgang_nr");
-                }
-                var courseDate = new CourseDate();
-                courseDate.CourseNo = Reader.GetString("lehrgang_nr");
-                
-                courseDate.CheckinDeadline = Reader.GetDateTime("meldeschluss_l");
-                courseDate.Requirements = Reader.GetString("voraussetzung");
-                courseDate.Supervisor = Reader.GetString("Leiter");
-                courseDate.CheckinDeadline = Reader.GetDateTime("meldeschluss_l");
-                courseDate.TargetAudience = Reader.GetString("zielgruppe");
-                courseDate.AP = Reader.GetString("ziel").Contains("AP Fortbildung: Ja");
-                courseDate.Juleica = Reader.GetString("ziel").Contains("JuLeiCa Fortbildung: Ja");
-                courseDate.Parts.Add(new CoursePart() {Start = Reader.GetDateTime("start_t"), End = Reader.GetDateTime("ende_t"), Location =  Reader.GetString("ort_t") });
 
-                var priceCommand = new MySqlCommand(@"select * from  `tbl_lehrgang_additional` 
-                                                        where lehrgang_id = @lehrgangid and typ = 'kosten' and titel is not null",priceConnection);
-                priceCommand.Parameters.AddWithValue("@lehrgangid", course.Id);
-                priceConnection.Open();
-                var priceReader = priceCommand.ExecuteReader();
-                StringBuilder sb = new StringBuilder();
-                while (priceReader.Read())
-                {
-                    sb.Append(priceReader.GetString("titel") + ": " + priceReader.GetString("option") + " € ");
+                    courseDate = new CourseDate();
+                    courseDate.CourseNo = Reader.GetString("lehrgang_nr");
+
+                    courseDate.CheckinDeadline = Reader.GetDateTime("meldeschluss_l");
+                    courseDate.Supervisor = Reader.GetString("Leiter");
+                    courseDate.CheckinDeadline = Reader.GetDateTime("meldeschluss_l");
+                    courseDate.Id = Reader.GetInt32("l.id");
+                    course.Dates.Add(courseDate);
+                    
+                    log.DebugFormat("Lehrgang {0} verarbeitet", courseDate.Id);
                 }
-                priceConnection.Close();
-                courseDate.Price = sb.ToString();
-                course.Dates.Add(courseDate);
-                log.DebugFormat("Lehrgang {0} verarbeitet", course.Id);
+
+                courseDate.Parts.Add(new CoursePart() {Start = Reader.GetDateTime("start_t"), End = Reader.GetDateTime("ende_t"), Location =  Reader.GetString("ort_t") });
             }
+            course.Dates.Add(courseDate);
             result.Add(course);
             
             return result;
+        }
+
+        private bool IsNewCourseDate(MySqlDataReader reader, string courseNo)
+        {
+            return reader.GetString("titel") != courseNo;
+        }
+
+        private static bool IsNewCourse(MySqlDataReader Reader, string TitleSubtitleDesc)
+        {
+            return GetTitleSubtitleDescFormReader(Reader) != TitleSubtitleDesc;
+        }
+
+        private static string GetTitleSubtitleDescFormReader(MySqlDataReader reader)
+        {
+            return reader.GetString("titel")+ reader.GetString("untertitel") + reader.GetString("inhalt");
+        }
+
+        private static StringBuilder GetPriceData(MySqlConnection priceConnection, int courseId)
+        {
+            var priceCommand = new MySqlCommand(
+                @"select * from  `tbl_lehrgang_additional` 
+                                                        where lehrgang_id = @lehrgangid and typ = 'kosten' and titel is not null",
+                priceConnection);
+            priceCommand.Parameters.AddWithValue("@lehrgangid", courseId);
+            priceConnection.Open();
+            var priceReader = priceCommand.ExecuteReader();
+            StringBuilder sb = new StringBuilder();
+            while (priceReader.Read())
+            {
+                sb.Append(priceReader.GetString("titel") + ": " + priceReader.GetString("option") + " € ");
+            }
+            priceConnection.Close();
+            return sb;
         }
 
         private static void GetHost(MySqlDataReader Reader, Course course)

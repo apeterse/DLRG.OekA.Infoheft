@@ -66,50 +66,50 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
 
             sb.AppendLine(@"\begin{targetaudiencediv}");
             sb.AppendLine(this.GetSubSection("Zielgruppe"));
-            sb.Append(this.ReplaceHtmlFormating(course.Dates[0].TargetAudience));
+            sb.Append(this.ReplaceHtmlFormating(course.TargetAudience));
             sb.AppendLine(@"\end{targetaudiencediv}");
 
             sb.AppendLine(@"\begin{requirementsdiv}");
             sb.AppendLine(this.GetSubSection("Voraussetzungen"));
-            sb.Append(this.ReplaceHtmlFormating(course.Dates[0].Requirements));
+            sb.Append(this.ReplaceHtmlFormating(course.Requirements));
             sb.AppendLine(@"\end{requirementsdiv}");
 
             sb.AppendLine(@"\begin{costdiv}");
             sb.AppendLine(@"\begin{tabular}{@{ } lll}");
             sb.AppendLine(@"\begin{minipage}[t]{0.4\textwidth}");
             sb.AppendLine(this.GetSubSection("Kosten"));
-            sb.Append(this.ReplaceHtmlFormating(course.Dates[0].Price));
+            sb.Append(this.ReplaceHtmlFormating(course.Price));
             sb.AppendLine(@"\end{minipage} &");
 
             sb.AppendLine(@"\begin{minipage}[t]{0.25\textwidth}");
             sb.AppendLine(this.GetSubSection("AP-Fortbildung"));
-            sb.Append(this.ReplaceHtmlFormating(course.Dates[0].AP ? "Ja" : "Nein"));
+            sb.Append(this.ReplaceHtmlFormating(course.AP ? "Ja" : "Nein"));
             sb.AppendLine(@"\end{minipage} &");
             sb.AppendLine(@"\begin{minipage}[t]{0.3\textwidth}");
             sb.AppendLine(this.GetSubSection("JuLeiCa-Fortbildung"));
-            sb.Append(this.ReplaceHtmlFormating(course.Dates[0].Juleica ? "Ja" : "Nein"));
+            sb.Append(this.ReplaceHtmlFormating(course.Juleica ? "Ja" : "Nein"));
             sb.AppendLine(@"\end{minipage}");
             sb.AppendLine(@"\end{tabular}");
             sb.AppendLine(@"\end{costdiv}");
 
-            foreach (var termin in course.Dates)
+            foreach (var courseDate in course.Dates)
             {
                 sb.AppendLine(@"\begin{detailsdiv}");
                 sb.AppendLine(@"\begin{tabular}[t]{@{}ll}");
                 sb.AppendLine(@"\begin{minipage}[t]{0.4\textwidth}");
                 sb.AppendLine(this.GetSubSection("Online-Anmeldung"));
-                sb.AppendLine(@"\qrcode[hyperlink,height=35mm]{http://sh.dlrg.de/fuer-mitglieder/seminare-und-lehrgaenge/uebersicht-und-anmeldung/seminar/" + course.Id + "/show.html}");
+                sb.AppendLine(@"\qrcode[hyperlink,height=35mm]{http://sh.dlrg.de/fuer-mitglieder/seminare-und-lehrgaenge/uebersicht-und-anmeldung/seminar/" + courseDate.Id + "/show.html}");
                 sb.AppendLine(@"\end{minipage} &");
 
                 sb.AppendLine(@"\begin{minipage}[t]{0.6\textwidth}");
                 sb.AppendLine(@"\vspace{12pt}");
-                sb.Append(this.GetDateEntry(termin.Parts));
-                sb.AppendLine(this.GetSeminarDetail("Lehrgangs-Nr", termin.CourseNo));
-                sb.AppendLine(this.GetSeminarDetail("Meldeschluss", termin.CheckinDeadline.ToString("dd.MM.yyyy")));
-                sb.AppendLine(this.GetSeminarDetail("Leitung", termin.Supervisor));
-                sb.AppendLine(this.GetSeminarDetail("Ort", termin.Parts[0].Location));
-                sb.AppendLine(this.GetSeminarDetail("Zeit", termin.Parts[0].Start.ToLongDateString()) + " bis");
-                sb.AppendLine(this.GetSeminarDetail("", termin.Parts[0].End.ToLongDateString()));
+                sb.Append(this.GetDateEntry(courseDate.Parts));
+                sb.AppendLine(this.GetSeminarDetail("Lehrgangs-Nr", courseDate.CourseNo));
+                sb.AppendLine(this.GetSeminarDetail("Meldeschluss", courseDate.CheckinDeadline.ToString("dd.MM.yyyy")));
+                sb.AppendLine(this.GetSeminarDetail("Leitung", courseDate.Supervisor));
+                sb.AppendLine(this.GetSeminarDetail("Ort", courseDate.Parts[0].Location));
+                sb.AppendLine(this.GetSeminarDetail("Zeit", courseDate.Parts[0].Start.ToLongDateString()) + " bis");
+                sb.AppendLine(this.GetSeminarDetail("", courseDate.Parts[0].End.ToLongDateString()));
 
                 sb.AppendLine(@"\end{minipage}");
                 sb.AppendLine(@"\end{tabular}");
