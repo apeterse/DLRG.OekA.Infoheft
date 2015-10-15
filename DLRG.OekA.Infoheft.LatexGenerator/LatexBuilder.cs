@@ -75,13 +75,13 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             sb.AppendLine(@"\end{requirementsdiv}");
 
             sb.AppendLine(@"\begin{costdiv}");
-            sb.AppendLine(@"\begin{tabular}{@{ } lll}");
+            sb.AppendLine(@"\begin{tabular}{@{} lll}");
             sb.AppendLine(@"\begin{minipage}[t]{0.4\textwidth}");
             sb.AppendLine(this.GetSubSection("Kosten"));
             sb.Append(this.ReplaceHtmlFormating(course.Price));
             sb.AppendLine(@"\end{minipage} &");
 
-            sb.AppendLine(@"\begin{minipage}[t]{0.25\textwidth}");
+            sb.AppendLine(@"\begin{minipage}[t]{0.3\textwidth}");
             sb.AppendLine(this.GetSubSection("AP-Fortbildung"));
             sb.Append(this.ReplaceHtmlFormating(course.AP ? "Ja" : "Nein"));
             sb.AppendLine(@"\end{minipage} &");
@@ -126,8 +126,15 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
         private string GetDateEntry(List<CoursePart> coursePart)
         {
             // Todo: Muss noch für die anderen Teile umgesetzt werden
-            return @"\dateEntry{" + coursePart[0].Start.ToString("dd.MM.") + " - " + coursePart[0].End.ToString("dd.MM.yyyy")
-                   + "} ";
+
+            var result = string.Empty;
+            foreach (var part in coursePart)
+            {
+                result = result + @"\dateEntry{" + part.Start.ToString("dd.MM.") + " - "
+                         + part.End.ToString("dd.MM.yyyy") + "} ";
+            }
+
+            return result;
         }
 
         private string ReplaceHtmlFormating(string beschreibung)
