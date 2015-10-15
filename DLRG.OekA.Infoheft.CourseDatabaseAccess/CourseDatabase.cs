@@ -117,7 +117,10 @@ namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
             StringBuilder sb = new StringBuilder();
             while (priceReader.Read())
             {
-                sb.Append(priceReader.GetString("titel") + ": " + priceReader.GetString("option") + " € ");
+                string price = priceReader.GetString("option");
+                string[] priceparts = price.Split('.');
+
+                sb.AppendLine(priceReader.GetString("titel") + ": " + priceparts[0] + " € ");
             }
             priceConnection.Close();
             return sb;
