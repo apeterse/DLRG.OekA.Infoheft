@@ -28,11 +28,21 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             sb.AppendLine(@"\pagestyle{fancy}");
             sb.AppendLine(@"\usepackage[]{qrcode}");
             sb.AppendLine(@"\usepackage{infoheft}");
+
+            sb.AppendLine(@"\usepackage{ draftwatermark}");
+            sb.AppendLine(@"\SetWatermarkText{ Entwurf}");
+            sb.AppendLine(@"\SetWatermarkScale{ 5}");
+
+
+
             sb.AppendLine(@"\begin{document}");
+            sb.AppendLine(@"\input{./title.tex}");
         }
 
         public void AddLatexFooter(StringBuilder sb)
         {
+            sb.AppendLine(@"\input{./Infoheft_teilnahmebedingungen.tex}");
+            sb.AppendLine(@"\input{./Werbung.tex}");
             sb.AppendLine(@"\end{document}");
         }
 
@@ -108,8 +118,8 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
                 sb.AppendLine(this.GetSeminarDetail("Meldeschluss", courseDate.CheckinDeadline.ToString("dd.MM.yyyy")));
                 sb.AppendLine(this.GetSeminarDetail("Leitung", courseDate.Supervisor));
                 sb.AppendLine(this.GetSeminarDetail("Ort", courseDate.Parts[0].Location));
-                sb.AppendLine(this.GetSeminarDetail("Zeit", courseDate.Parts[0].Start.ToLongDateString()) + " bis");
-                sb.AppendLine(this.GetSeminarDetail("", courseDate.Parts[0].End.ToLongDateString()));
+                sb.AppendLine(this.GetSeminarDetail("Zeit", courseDate.Parts[0].Start.ToString("dddd HH:mm")) + @" bis \par");
+                sb.AppendLine(this.GetSeminarDetail("", courseDate.Parts[0].End.ToString("dddd HH:mm")));
 
                 sb.AppendLine(@"\end{minipage}");
                 sb.AppendLine(@"\end{tabular}");

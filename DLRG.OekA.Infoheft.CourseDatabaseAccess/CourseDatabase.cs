@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
 {
+    using System.Globalization;
+
     using DLRG.OekA.Infoheft.Common;
 
     using log4net;
@@ -26,7 +28,7 @@ namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
 
             MySqlCommand command = connection.CreateCommand();
             
-            command.CommandText = @"SELECT l.id, t.veranstalter, f.fachbereich ressort, t.beginn start_t, t.ende ende_t, t.ort ort_t,l.inhalt,l.untertitel, l.voraussetzung,
+            command.CommandText = @"SELECT l.id, t.veranstalter, f.fachbereich ressort, t.beginn start_t, t.von,  t.ende ende_t, t.bis, t.ort ort_t,l.inhalt,l.untertitel, l.voraussetzung,
                  l.start start_l, l.ende ende_l, l.lehrgang_nr,l.titel,l.ort ort_l, t.meldeschluss meldeschluss_t, l.meldeschluss meldeschluss_l ,
                  l.zielgruppe, l.ziel, l.leiter, l.fachbereich 
                  FROM `tbl_lehrgang` l
@@ -82,7 +84,19 @@ namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
                     log.DebugFormat("Lehrgang {0} verarbeitet", courseDate.Id);
                 }
 
-                courseDate.Parts.Add(new CoursePart() {Start = Reader.GetDateTime("start_t"), End = Reader.GetDateTime("ende_t"), Location =  Reader.GetString("ort_t") });
+
+                var part = new CoursePart()
+                           {
+                               Start = Reader.GetDateTime("start_t"),
+                               End = Reader.GetDateTime("ende_t"),
+                               Location = Reader.GetString("ort_t")
+                           };
+                part.Start = part.Start.Date + DateTime.ParseExact(Reader.GetString("von"), "HH:mm:ss", CultureInfo.InvariantCulture).TimeOfDay;
+                part.End = part.End.Date + DateTime.ParseExact(Reader.GetString("bis"), "HH:mm:ss", CultureInfo.InvariantCulture).TimeOfDay;
+
+                courseDate.Parts.Add(part);
+
+
             }
             course.Dates.Add(courseDate);
             result.Add(course);
