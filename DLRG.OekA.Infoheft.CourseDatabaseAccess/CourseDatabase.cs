@@ -147,7 +147,10 @@ namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
             {
                 course.Host = "Stammverband";
             }
-            course.Host = "Jugend";
+            else
+            {
+                course.Host = "Jugend";
+            }
         }
     }
 }
