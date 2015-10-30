@@ -33,8 +33,6 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             sb.AppendLine(@"\SetWatermarkText{ Entwurf}");
             sb.AppendLine(@"\SetWatermarkScale{ 5}");
 
-
-
             sb.AppendLine(@"\begin{document}");
             sb.AppendLine(@"\input{./title.tex}");
         }
@@ -68,11 +66,10 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
         private void AddLehrgangsData(StringBuilder sb, Course course)
         {
             sb.AppendLine(@"\begin{body}");
-            sb.AppendLine(this.ReplaceHtmlFormating(GetSection(course.Title)));
-            sb.AppendLine(this.GetSubSection(ReplaceHtmlFormating(course.Subtitle)));
-            sb.Append(this.ReplaceHtmlFormating(course.Description));
+            sb.AppendLine(GetSection(course.Title.TransformHtmlToLatex()));
+            sb.AppendLine(this.GetSubSection(course.Subtitle.TransformHtmlToLatex()));
+            sb.Append(course.Description.TransformHtmlToLatex());
             sb.AppendLine(@"\end{body}");
-
 
             if (course.Host == "Jugend")
             {
@@ -93,32 +90,30 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
                 sb.AppendLine(@"\marginpar{\includegraphics[width=1\marginparwidth]{./juleica_schriftzug_grau.png}}");
             }
 
-
-
             sb.AppendLine(@"\begin{targetaudiencediv}");
             sb.AppendLine(this.GetSubSection("Zielgruppe"));
-            sb.Append(this.ReplaceHtmlFormating(course.TargetAudience));
+            sb.Append(course.TargetAudience.TransformHtmlToLatex());
             sb.AppendLine(@"\end{targetaudiencediv}");
 
             sb.AppendLine(@"\begin{requirementsdiv}");
             sb.AppendLine(this.GetSubSection("Voraussetzungen"));
-            sb.Append(this.ReplaceHtmlFormating(course.Requirements));
+            sb.Append(course.Requirements.TransformHtmlToLatex());
             sb.AppendLine(@"\end{requirementsdiv}");
 
             sb.AppendLine(@"\begin{costdiv}");
             sb.AppendLine(@"\begin{tabular}{@{} lll}");
             sb.AppendLine(@"\begin{minipage}[t]{\costcolwidth}");
             sb.AppendLine(this.GetSubSection("Kosten"));
-            sb.Append(this.ReplaceHtmlFormating(course.Price));
+            sb.Append(course.Price.TransformHtmlToLatex());
             sb.AppendLine(@"\end{minipage} &");
 
             sb.AppendLine(@"\begin{minipage}[t]{\apcolwitdth}");
             sb.AppendLine(this.GetSubSection("AP-Fortbildung"));
-            sb.Append(this.ReplaceHtmlFormating(course.AP ? "Ja" : "Nein"));
+            sb.Append(course.AP ? "Ja" : "Nein");
             sb.AppendLine(@"\end{minipage} &");
             sb.AppendLine(@"\begin{minipage}[t]{\juleicacolwitdh}");
             sb.AppendLine(this.GetSubSection("JuLeiCa-Fortbildung"));
-            sb.Append(this.ReplaceHtmlFormating(course.Juleica ? "Ja" : "Nein"));
+            sb.Append(course.Juleica ? "Ja" : "Nein");
             sb.AppendLine(@"\end{minipage}");
             sb.AppendLine(@"\end{tabular}");
             sb.AppendLine(@"\end{costdiv}");
@@ -156,8 +151,6 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
 
         private string GetDateEntry(List<CoursePart> coursePart)
         {
-            // Todo: Muss noch für die anderen Teile umgesetzt werden
-
             var result = string.Empty;
             foreach (var part in coursePart)
             {
@@ -167,25 +160,7 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
 
             return result;
         }
-
-        private string ReplaceHtmlFormating(string beschreibung)
-        {
-            
-
-            string tempResult = beschreibung.Replace(Environment.NewLine, @" \par ");
-            tempResult = tempResult.Replace(((char)10).ToString(), @" \par ");
-            tempResult = tempResult.Replace(("<br />").ToString(), @" \par ");
-            tempResult = tempResult.Replace(("&").ToString(), @"\& ");
-            tempResult = tempResult.Replace(("„").ToString(), @"\glqq ");
-            tempResult = tempResult.Replace(("“").ToString(), @"\grqq ");
-
-
-
-
-            // auserdem müssen alle bak-slashes ersetzt werden
-
-            return tempResult;
-        }
+        
 
         private static string GetSection(string text)
         {
