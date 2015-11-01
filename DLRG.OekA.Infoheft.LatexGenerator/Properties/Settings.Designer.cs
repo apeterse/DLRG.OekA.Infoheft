@@ -41,5 +41,14 @@ namespace DLRG.OekA.Infoheft.LatexGenerator.Properties {
                 return ((string)(this["ExportPath"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2016-01-01")]
+        public global::System.DateTime StartDate {
+            get {
+                return ((global::System.DateTime)(this["StartDate"]));
+            }
+        }
     }
 }

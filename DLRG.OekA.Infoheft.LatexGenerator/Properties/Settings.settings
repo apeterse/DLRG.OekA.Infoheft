@@ -8,5 +8,8 @@
     <Setting Name="ExportPath" Type="System.String" Scope="Application">
       <Value Profile="(Default)">c:\Users\arno\Documents\Visual Studio 2015\Projects\DLRG.OekA.Infoheft\DLRG.OekA.Infoheft.LatexGenerator\bin\Debug\</Value>
     </Setting>
+    <Setting Name="StartDate" Type="System.DateTime" Scope="Application">
+      <Value Profile="(Default)">2016-01-01</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

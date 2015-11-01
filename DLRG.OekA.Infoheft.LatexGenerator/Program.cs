@@ -20,7 +20,6 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
 
         static void Main(string[] args)
         {
-
             XmlConfigurator.Configure();
             log.Info("start");
 
@@ -30,12 +29,7 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
 
             CourseDatabase db = new CourseDatabase();
 
-            List<Course> lehrgangsList = db.GetCourseList(new DateTime(2016, 01, 01), new DateTime(2017, 01, 01));
-
-            // hier die dubletten ermitteln
-
-            // dann die Lehrgänge in eine neue liste schreiben
-
+            List<Course> lehrgangsList = db.GetCourseList(Properties.Settings.Default.StartDate, Properties.Settings.Default.StartDate.AddYears(1));
 
             latexBuilder.AddAllCourses(sb, lehrgangsList);
             
