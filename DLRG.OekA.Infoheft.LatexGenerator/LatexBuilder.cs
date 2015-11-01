@@ -24,14 +24,12 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             sb.AppendLine(@"\usepackage[ngerman]{babel} ");
 
             sb.AppendLine(@"\renewcommand\familydefault{\sfdefault}");
-            sb.AppendLine(@"\usepackage{fancyhdr}");
-            sb.AppendLine(@"\pagestyle{fancy}");
             sb.AppendLine(@"\usepackage[]{qrcode}");
             sb.AppendLine(@"\usepackage{infoheft}");
 
             sb.AppendLine(@"\usepackage{ draftwatermark}");
             sb.AppendLine(@"\SetWatermarkText{ Entwurf}");
-            sb.AppendLine(@"\SetWatermarkScale{ 5}");
+            sb.AppendLine(@"\SetWatermarkScale{1}");
 
             sb.AppendLine(@"\begin{document}");
             sb.AppendLine(@"\input{./title.tex}");
@@ -124,7 +122,7 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
                 sb.AppendLine(@"\begin{tabular}[t]{@{}ll}");
                 sb.AppendLine(@"\begin{minipage}[t]{\qrcodecolwidth}");
                 sb.AppendLine(this.GetSubSection("Online-Anmeldung"));
-                sb.AppendLine(@"\qrcode[hyperlink,height=35mm]{http://sh.dlrg.de/fuer-mitglieder/seminare-und-lehrgaenge/uebersicht-und-anmeldung/seminar/" + courseDate.Id + "/show.html}");
+                sb.AppendLine(@"\qrcode[hyperlink,height=\qrcodeheight]{http://sh.dlrg.de/fuer-mitglieder/seminare-und-lehrgaenge/uebersicht-und-anmeldung/seminar/" + courseDate.Id + "/show.html}");
                 sb.AppendLine(@"\end{minipage} &");
 
                 sb.AppendLine(@"\begin{minipage}[t]{\detailscolwidth}");

@@ -29,7 +29,7 @@
 \setlength{\oddsidemargin}{35mm}
 \setlength{\evensidemargin}{35mm}
 \setlength{\textwidth}{150mm}
-\setlength{\textheight}{240mm}
+\setlength{\textheight}{250mm}
 \setlength{\hoffset}{-25mm}
 \setlength{\voffset}{-25mm}
 \setlength{\marginparsep}{16pt}
@@ -39,7 +39,7 @@
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-\fancyhead[RO,LE]{\myheadingtext} 
+\fancyhead[RO,LE]{\scshape{\myheadingtext}} 
 \fancyfoot[LE, RO]{\thepage} 
 \cfoot{}
 
@@ -49,8 +49,9 @@
 \newcommand\apcolwitdth{0.26\textwidth}
 \newcommand\juleicacolwitdh{0.35\textwidth}
 
-\newcommand\qrcodecolwidth{0.35\textwidth}
-\newcommand\detailscolwidth{0.65\textwidth}
+\newcommand\qrcodecolwidth{0.30\textwidth}
+\newcommand\detailscolwidth{0.7\textwidth}
+\newcommand\qrcodeheight{45mm}
 
 
 
@@ -67,13 +68,13 @@
 
 \newenvironment{costdiv}{\begin{minipage}[t][23mm][t]{\textwidth}}{\end{minipage}}
 
-\newenvironment{detailsdiv}{\begin{minipage}[t][46mm][t]{\textwidth}}{\end{minipage}}
+\newenvironment{detailsdiv}{\begin{minipage}[t][55mm][t]{\textwidth}}{\end{minipage}}
                                             
 \newcommand*{\seminardetail}[2]{%
-\begin{tabular}{@{}p{27mm}l}
-  \textbf{#1}&#2
+\begin{tabular}{@{}p{30mm}l}
+  \textbf{\scshape{#1}}&#2
  \end{tabular}
 }
 
 
-\newcommand*{\dateEntry}[1]{{\Large #1 } \par }
+\newcommand*{\dateEntry}[1]{{\Large #1 } \par \vspace{12pt}}
