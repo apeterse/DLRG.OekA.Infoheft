@@ -8,7 +8,7 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
     {
         public static string TransformHtmlToLatex(this string text)
         {
-            return Transform(text);
+            return Transform(text).Trim();
         }
 
         public static string Transform(string text)
