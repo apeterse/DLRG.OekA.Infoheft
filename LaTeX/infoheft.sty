@@ -5,22 +5,17 @@
 \usepackage[T1]{fontenc}
 
 \pdfmapfile{+roboto.map}
-\usepackage[sfdefault]{robotonew}
+\usepackage[sfdefault]{roboto}
 
 %Sorgt dafür, das die Titel in Kapitälhen gesetzt werden
 \usepackage{titlesec}
 \titleformat{\section}{\LARGE\normalfont}{}{}{}
-\titleformat{\subsection}{\large\bfseries\scshape}{}{}{}
-
-
-
+\titleformat{\subsection}{\large\itshape}{}{}{}
 
 
 
 %\newcommand{\MyHeadingtext}[1]{\newcommand{\myheadingtext}{#1}}
 \newcommand\myheadingtext{test}
-
- 
 
 
 
@@ -58,6 +53,13 @@
 \renewcommand{\headrulewidth}{0.0pt}
 \renewcommand{\familydefault}{\sfdefault}
 
+\newcommand{\thinfont}{\fontseries{t}\selectfont}
+\newcommand{\texttf}[1]{{%
+\begin{thinfont}%
+ #1%
+\end{thinfont}}}
+
+
 
 
 \newenvironment{body}{\begin{minipage}[t][120mm][t]{\textwidth}}{\end{minipage}}
@@ -72,9 +74,16 @@
                                             
 \newcommand*{\seminardetail}[2]{%
 \begin{tabular}{@{}p{30mm}l}
-  \textbf{\scshape{#1}}&#2
+  \texttf{\scshape{#1}}&#2
  \end{tabular}
 }
 
-
 \newcommand*{\dateEntry}[1]{{\Large #1 } \par \vspace{12pt}}
+
+\newcommand{\infosection}[1]{%
+\texttf{\scshape{#1}}\par%
+}
+
+
+
+

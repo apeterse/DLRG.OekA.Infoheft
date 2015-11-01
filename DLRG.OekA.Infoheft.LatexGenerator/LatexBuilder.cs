@@ -89,28 +89,28 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             }
 
             sb.AppendLine(@"\begin{targetaudiencediv}");
-            sb.AppendLine(this.GetSubSection("Zielgruppe"));
+            sb.AppendLine(this.GetInfoSection("Zielgruppe"));
             sb.Append(course.TargetAudience.TransformHtmlToLatex());
             sb.AppendLine(@"\end{targetaudiencediv}");
 
             sb.AppendLine(@"\begin{requirementsdiv}");
-            sb.AppendLine(this.GetSubSection("Voraussetzungen"));
+            sb.AppendLine(this.GetInfoSection("Voraussetzungen"));
             sb.Append(course.Requirements.TransformHtmlToLatex());
             sb.AppendLine(@"\end{requirementsdiv}");
 
             sb.AppendLine(@"\begin{costdiv}");
             sb.AppendLine(@"\begin{tabular}{@{} lll}");
             sb.AppendLine(@"\begin{minipage}[t]{\costcolwidth}");
-            sb.AppendLine(this.GetSubSection("Kosten"));
+            sb.AppendLine(this.GetInfoSection("Kosten"));
             sb.Append(course.Price.TransformHtmlToLatex());
             sb.AppendLine(@"\end{minipage} &");
 
             sb.AppendLine(@"\begin{minipage}[t]{\apcolwitdth}");
-            sb.AppendLine(this.GetSubSection("AP-Fortbildung"));
+            sb.AppendLine(this.GetInfoSection("AP-Fortbildung"));
             sb.Append(course.AP ? "Ja" : "Nein");
             sb.AppendLine(@"\end{minipage} &");
             sb.AppendLine(@"\begin{minipage}[t]{\juleicacolwitdh}");
-            sb.AppendLine(this.GetSubSection("JuLeiCa-Fortbildung"));
+            sb.AppendLine(this.GetInfoSection("JuLeiCa-Fortbildung"));
             sb.Append(course.Juleica ? "Ja" : "Nein");
             sb.AppendLine(@"\end{minipage}");
             sb.AppendLine(@"\end{tabular}");
@@ -121,7 +121,7 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
                 sb.AppendLine(@"\begin{detailsdiv}");
                 sb.AppendLine(@"\begin{tabular}[t]{@{}ll}");
                 sb.AppendLine(@"\begin{minipage}[t]{\qrcodecolwidth}");
-                sb.AppendLine(this.GetSubSection("Online-Anmeldung"));
+                sb.AppendLine(this.GetInfoSection("Online-Anmeldung"));
                 sb.AppendLine(@"\qrcode[hyperlink,height=\qrcodeheight]{http://sh.dlrg.de/fuer-mitglieder/seminare-und-lehrgaenge/uebersicht-und-anmeldung/seminar/" + courseDate.Id + "/show.html}");
                 sb.AppendLine(@"\end{minipage} &");
 
@@ -141,6 +141,8 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             }
             sb.AppendLine(@"\newpage");
         }
+
+        
 
         private string GetSeminarDetail(string title, string value)
         {
@@ -169,6 +171,12 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
         private string GetSubSection(string text)
         {
             string section = @"\subsection*{" + text + "}";
+            return section; throw new NotImplementedException();
+        }
+
+        private string GetInfoSection(string text)
+        {
+            string section = @"\infosection{" + text + "}";
             return section;
         }
     }
