@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -8,9 +7,8 @@ using log4net;
 namespace DLRG.OekA.Infoheft.LatexGenerator
 {
     using System;
-    using System.Web;
 
-    using DLRG.OekA.Infoheft.Common;
+    using Common;
 
     public class LatexBuilder
     {
@@ -141,9 +139,7 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             }
             sb.AppendLine(@"\newpage");
         }
-
         
-
         private string GetSeminarDetail(string title, string value)
         {
             return @"\seminardetail{" + title + "}{" + value + "}";
@@ -161,7 +157,6 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             return result;
         }
         
-
         private static string GetSection(string text)
         {
             string section = @"\section*{" + text + "}";

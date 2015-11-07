@@ -1,7 +1,5 @@
 namespace DLRG.OekA.Infoheft.LatexGenerator
 {
-    using System;
-
     using HtmlAgilityPack;
 
     public static class HtmlToLatexExtension

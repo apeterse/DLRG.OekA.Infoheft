@@ -15,8 +15,6 @@
             replacements.Add("deine", "Deine");
             replacements.Add("euer", "Euer");
 
-            
-
             foreach (KeyValuePair<string, string> pair in replacements)
             {
                 s = Regex.Replace(s, @"\b"+pair.Key+@"\b", pair.Value);                

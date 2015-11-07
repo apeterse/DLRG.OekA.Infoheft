@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
 {
     using System.Globalization;
 
-    using DLRG.OekA.Infoheft.Common;
+    using Common;
 
     using log4net;
 
@@ -84,7 +82,6 @@ namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
                     log.DebugFormat("Lehrgang {0} verarbeitet", courseDate.Id);
                 }
 
-
                 var part = new CoursePart()
                            {
                                Start = Reader.GetDateTime("start_t"),
@@ -95,8 +92,6 @@ namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
                 part.End = part.End.Date + DateTime.ParseExact(Reader.GetString("bis"), "HH:mm:ss", CultureInfo.InvariantCulture).TimeOfDay;
 
                 courseDate.Parts.Add(part);
-
-
             }
             course.Dates.Add(courseDate);
             result.Add(course);
