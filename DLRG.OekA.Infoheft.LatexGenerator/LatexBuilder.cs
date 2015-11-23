@@ -14,6 +14,8 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
     {
         private static readonly ILog log = LogManager.GetLogger("LatexGenerator");
 
+        private string oldDepartment = string.Empty;
+
         public void AddLatexHeader(StringBuilder sb)
         {
             sb.AppendLine(@"\documentclass[a4paper, 12pt]{book}");
@@ -50,12 +52,25 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
                                orderby course.Category.ToString(), course.Dates[0].Parts[0].Start
                                select course;
                 
-                foreach (var lehrgang in sortedLg)
+                foreach (var course in sortedLg)
                 {
-                    sb.AppendLine(@"\renewcommand\myheadingtext{"+lehrgang.Host+" | " + lehrgang.Department + "}");
+                    sb.AppendLine(@"\renewcommand\myheadingtext{"+course.Host+" | " + course.Department + "}");
+                    
+                    this.AddChapterToToc(sb, course);
 
-                    this.AddLehrgangsData(sb, lehrgang);
+                    sb.AppendLine(string.Format(@"\addcontentsline{{toc}}{{section}}{{{0}}}", course.Title.TransformHtmlToLatex()));
+
+                    this.AddLehrgangsData(sb, course);
                 }
+            }
+        }
+
+        private void AddChapterToToc(StringBuilder sb, Course course)
+        {
+            if (this.oldDepartment != course.Department)
+            {
+                sb.AppendLine(string.Format(@"\addcontentsline{{toc}}{{chapter}}{{{0}}}", course.Department));
+                this.oldDepartment = course.Department;
             }
         }
 
@@ -100,7 +115,11 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             sb.AppendLine(@"\begin{tabular}{@{} lll}");
             sb.AppendLine(@"\begin{minipage}[t]{\costcolwidth}");
             sb.AppendLine(this.GetInfoSection("Kosten"));
-            sb.Append(course.Price.TransformHtmlToLatex());
+            foreach (var price in course.Prices)
+            {
+                sb.AppendLine(price.TransformHtmlToLatex()+ @"\newline ");
+            }
+            
             sb.AppendLine(@"\end{minipage} &");
 
             sb.AppendLine(@"\begin{minipage}[t]{\apcolwitdth}");

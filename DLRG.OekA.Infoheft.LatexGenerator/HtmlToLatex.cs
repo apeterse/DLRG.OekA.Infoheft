@@ -76,6 +76,10 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             text = text.Replace("&#39", "''");
             text = text.Replace("&rsquo;", "''");
             text = text.Replace(@"\", @"\\");
+            text = text.Replace("\"","''''");
+            //text = text.Replace(((char)int.Parse("BE")).ToString(), ";");
+
+
             return text;
         }
     }

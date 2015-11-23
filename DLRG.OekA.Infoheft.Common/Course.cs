@@ -64,7 +64,7 @@
             set;
         }
 
-        public string Price
+        public List<string> Prices
         {
             get;
             set;

@@ -63,8 +63,7 @@ namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
                         course.TargetAudience = Reader.GetString("zielgruppe");
                         course.AP = Reader.GetString("ziel").Contains("AP Fortbildung: Ja");
                         course.Juleica = Reader.GetString("ziel").Contains("JuLeiCa Fortbildung: Ja");
-                        var sb = GetPriceData(priceConnection, Reader.GetInt32("id"));
-                        course.Price = sb.ToString();
+                        course.Prices = GetPriceData(priceConnection, Reader.GetInt32("id"));
                         result.Add(course);
                         TitleSubtitleDesc = course.Title + course.Subtitle + course.Description;
                     }
@@ -101,7 +100,7 @@ namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
 
         private bool IsNewCourseDate(MySqlDataReader reader, string courseNo)
         {
-            return reader.GetString("titel") != courseNo;
+            return reader.GetString("lehrgang_nr") != courseNo;
         }
 
         private static bool IsNewCourse(MySqlDataReader Reader, string TitleSubtitleDesc)
@@ -114,7 +113,7 @@ namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
             return reader.GetString("titel")+ reader.GetString("untertitel") + reader.GetString("inhalt");
         }
 
-        private static StringBuilder GetPriceData(MySqlConnection priceConnection, int courseId)
+        private static List<string> GetPriceData(MySqlConnection priceConnection, int courseId)
         {
             var priceCommand = new MySqlCommand(
                 @"select * from  `tbl_lehrgang_additional` 
@@ -123,16 +122,17 @@ namespace DLRG.OekA.Infoheft.CourseDatabaseAccess
             priceCommand.Parameters.AddWithValue("@lehrgangid", courseId);
             priceConnection.Open();
             var priceReader = priceCommand.ExecuteReader();
-            StringBuilder sb = new StringBuilder();
+            var result = new List<string>();
+
             while (priceReader.Read())
             {
                 string price = priceReader.GetString("option");
                 string[] priceparts = price.Split('.');
 
-                sb.AppendLine(priceReader.GetString("titel") + ": " + priceparts[0] + " € ");
+                result.Add(priceReader.GetString("titel") + ": " + priceparts[0] + " € ");
             }
             priceConnection.Close();
-            return sb;
+            return result;
         }
 
         private static void GetHost(MySqlDataReader Reader, Course course)
