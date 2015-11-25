@@ -10,11 +10,81 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
 
     using Common;
 
+    public class LatexData
+    {
+        public string MainDocument { get; set; }
+
+        public string TableOfContents { get; set; }
+
+        public string Calender { get; set; }
+    }
+
+    public class CalenderBuilder
+    {
+
+        private StringBuilder calender;
+        public CalenderBuilder()
+        {
+            this.calender = new StringBuilder();
+            this.calender.AppendLine(@"\renewcommand\myheadingtext{Jahresübersicht}");
+            this.calender.AppendLine(@"\section*{Seminarübersicht}");
+            this.calender.AppendLine(@"\begin{tabularx}{\textwidth+\marginparwidth}{rXl}");
+        }
+
+
+        public void AddToCalender(Course course)
+        {
+            
+            // Hier muss ich die Daten in eine Liste 
+            // in getcalender werden die Daten dann sortiert und in den Stringbuilder geschrieben
+            
+        }
+
+
+        public string GetCalender()
+        {
+            //this.calender.AppendLine(string.Format("{0}@{1}@{2}@{3}@{4}@{5}",cou))
+            this.CloseCalender();
+            return this.calender.ToString();
+        }
+
+        private void CloseCalender()
+        {
+            this.calender.AppendLine(@"\end{tabularx}");
+        }
+    }
+
     public class LatexBuilder
     {
         private static readonly ILog log = LogManager.GetLogger("LatexGenerator");
 
         private string oldDepartment = string.Empty;
+
+        private TocBuilder tocBuilder = new TocBuilder();
+
+
+        public LatexData GetLatexCode(List<Course> lehrgangsList)
+        {
+            var result = new LatexData();
+
+
+            var sb = this.CreateMainDocument(lehrgangsList);
+
+            result.MainDocument = sb.ToString();
+            result.TableOfContents = tocBuilder.GetToc();
+            return result;
+        }
+
+        private StringBuilder CreateMainDocument(List<Course> lehrgangsList)
+        {
+            StringBuilder sb = new StringBuilder();
+            this.AddLatexHeader(sb);
+            this.AddAllCourses(sb, lehrgangsList);
+            this.AddLatexFooter(sb);
+            return sb;
+        }
+
+
 
         public void AddLatexHeader(StringBuilder sb)
         {
@@ -28,11 +98,14 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             sb.AppendLine(@"\usepackage{infoheft}");
 
             sb.AppendLine(@"\usepackage{ draftwatermark}");
-            sb.AppendLine(@"\SetWatermarkText{ Entwurf}");
+            sb.AppendLine(@"\SetWatermarkText{Entwurf}");
             sb.AppendLine(@"\SetWatermarkScale{1}");
 
             sb.AppendLine(@"\begin{document}");
             sb.AppendLine(@"\input{./title.tex}");
+            sb.AppendLine(@"\input{./Anmeldung.tex}");
+            sb.AppendLine(@"\input{./Inhaltsverzeichnis.tex}");
+            sb.AppendLine(@"\input{./Jahresuebersicht.tex}");
         }
 
         public void AddLatexFooter(StringBuilder sb)
@@ -51,14 +124,20 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
                                where course.Category == localRubric
                                orderby course.Category.ToString(), course.Dates[0].Parts[0].Start
                                select course;
-                
+
                 foreach (var course in sortedLg)
                 {
-                    sb.AppendLine(@"\renewcommand\myheadingtext{"+course.Host+" | " + course.Department + "}");
-                    
+
+                    sb.AppendLine(@"\renewcommand\myheadingtext{" + course.Host + " | " + course.Department + "}");
+
                     this.AddChapterToToc(sb, course);
 
-                    sb.AppendLine(string.Format(@"\addcontentsline{{toc}}{{section}}{{{0}}}", course.Title.TransformHtmlToLatex()));
+                    // hier muss das LAbel mit einer ID geseetzt werden und ein Eintrag in mein Toc gemacht werden
+                    sb.AppendLine(@"\label{" + course.Dates[0].CourseNo + "}");
+                    this.tocBuilder.AddToToc(course);
+                    // Außerdem ein eintrag in die Jahresübersicht
+
+
 
                     this.AddLehrgangsData(sb, course);
                 }
@@ -67,9 +146,12 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
 
         private void AddChapterToToc(StringBuilder sb, Course course)
         {
+            // Hier muss das LAbel gesetzt werden und ein eintrag in men TOC eingetragen werdn
+
             if (this.oldDepartment != course.Department)
             {
-                sb.AppendLine(string.Format(@"\addcontentsline{{toc}}{{chapter}}{{{0}}}", course.Department));
+                sb.AppendLine(@"\label{" + course.Department + "}");
+                this.tocBuilder.AddChapterToToc(course);
                 this.oldDepartment = course.Department;
             }
         }
@@ -117,9 +199,9 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             sb.AppendLine(this.GetInfoSection("Kosten"));
             foreach (var price in course.Prices)
             {
-                sb.AppendLine(price.TransformHtmlToLatex()+ @"\newline ");
+                sb.AppendLine(price.TransformHtmlToLatex() + @"\newline ");
             }
-            
+
             sb.AppendLine(@"\end{minipage} &");
 
             sb.AppendLine(@"\begin{minipage}[t]{\apcolwitdth}");
@@ -158,7 +240,7 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             }
             sb.AppendLine(@"\newpage");
         }
-        
+
         private string GetSeminarDetail(string title, string value)
         {
             return @"\seminardetail{" + title + "}{" + value + "}";
@@ -175,7 +257,7 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
 
             return result;
         }
-        
+
         private static string GetSection(string text)
         {
             string section = @"\section*{" + text + "}";
@@ -194,4 +276,6 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             return section;
         }
     }
+
+
 }

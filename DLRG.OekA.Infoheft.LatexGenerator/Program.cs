@@ -23,17 +23,13 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             XmlConfigurator.Configure();
             log.Info("start");
 
-            StringBuilder sb = new StringBuilder();
+            
             LatexBuilder latexBuilder = new LatexBuilder();
-            latexBuilder.AddLatexHeader(sb);
 
             CourseDatabase db = new CourseDatabase();
-
             List<Course> lehrgangsList = db.GetCourseList(Properties.Settings.Default.StartDate, Properties.Settings.Default.StartDate.AddYears(1));
 
-            latexBuilder.AddAllCourses(sb, lehrgangsList);
-            
-            latexBuilder.AddLatexFooter(sb);
+            var sb = latexBuilder.GetLatexCode(lehrgangsList);
 
             var utf8WithoutBom = new System.Text.UTF8Encoding(false);
             using (StreamWriter sw = new StreamWriter(Path.Combine(Properties.Settings.Default.ExportPath, "teste.tex"), false, utf8WithoutBom))
@@ -42,5 +38,7 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
                 sw.Close();
             }
         }
+
+        
     }
 }
