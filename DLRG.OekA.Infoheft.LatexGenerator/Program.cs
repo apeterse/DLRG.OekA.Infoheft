@@ -29,12 +29,28 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             CourseDatabase db = new CourseDatabase();
             List<Course> lehrgangsList = db.GetCourseList(Properties.Settings.Default.StartDate, Properties.Settings.Default.StartDate.AddYears(1));
 
-            var sb = latexBuilder.GetLatexCode(lehrgangsList);
+            
+
+
+            var latexData = latexBuilder.GetLatexCode(lehrgangsList);
 
             var utf8WithoutBom = new System.Text.UTF8Encoding(false);
             using (StreamWriter sw = new StreamWriter(Path.Combine(Properties.Settings.Default.ExportPath, "teste.tex"), false, utf8WithoutBom))
             {
-                sw.Write(sb.ToString());
+                sw.Write(latexData.MainDocument);
+                sw.Close();
+            }
+
+            
+            using (StreamWriter sw = new StreamWriter(Path.Combine(Properties.Settings.Default.ExportPath, "Inhaltsverzeichnis.tex"), false, utf8WithoutBom))
+            {
+                sw.Write(latexData.TableOfContents);
+                sw.Close();
+            }
+
+            using (StreamWriter sw = new StreamWriter(Path.Combine(Properties.Settings.Default.ExportPath, "Jahresuebersicht.tex"), false, utf8WithoutBom))
+            {
+                sw.Write(latexData.Calender);
                 sw.Close();
             }
         }

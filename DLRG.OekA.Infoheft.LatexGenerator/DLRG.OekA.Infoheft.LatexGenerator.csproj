@@ -52,6 +52,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalenderBuilder.cs" />
+    <Compile Include="CalenderEntry.cs" />
     <Compile Include="HtmlToLatex.cs" />
     <Compile Include="LatexBuilder.cs" />
     <Compile Include="Program.cs" />

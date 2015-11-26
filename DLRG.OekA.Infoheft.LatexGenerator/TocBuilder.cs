@@ -1,5 +1,6 @@
 namespace DLRG.OekA.Infoheft.LatexGenerator
 {
+    using System;
     using System.Text;
 
     using DLRG.OekA.Infoheft.Common;
@@ -19,16 +20,16 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
         {
             var multiCouseMarker = course.Dates.Count > 1 ? "*" : "";
 
-            this.tableOfContents.AppendLine(@"~\pageref{" + course.Dates[0].CourseNo + @"} \hspace{1em} " + course.Title + @" \hfill " + course.Dates[0].CourseNo + multiCouseMarker + @" \\");
+            this.tableOfContents.AppendLine(@"~\pageref{" + course.Dates[0].CourseNo + @"} \hspace{1em}& " + course.Title + @" \hfill &" + course.Dates[0].CourseNo + multiCouseMarker + @" \\");
+            
         }
 
         public void AddChapterToToc(Course course)
         {
-            this.tableOfContents.AppendLine(@"\mygreybox{" + course.Department + @"} \\");
+            
+            this.tableOfContents.AppendLine(String.Format(@"\rowcolor{{gray}} \hspace{{1em}}& {0} \hfill &  \\",course.Department));
         }
-
-
-
+        
         public string GetToc()
         {
             this.CloseToc();
@@ -38,6 +39,8 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
         private void CloseToc()
         {
             this.tableOfContents.AppendLine(@"\end{tabularx}");
+            this.tableOfContents.AppendLine("*zu diesem Lehrgang gibt es weitere Termine, s. Lehrgangsseite");
+            this.tableOfContents.AppendLine(@"\newpage");
         }
     }
 }

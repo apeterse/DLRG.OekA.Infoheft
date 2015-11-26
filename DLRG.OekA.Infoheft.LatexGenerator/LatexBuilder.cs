@@ -19,41 +19,6 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
         public string Calender { get; set; }
     }
 
-    public class CalenderBuilder
-    {
-
-        private StringBuilder calender;
-        public CalenderBuilder()
-        {
-            this.calender = new StringBuilder();
-            this.calender.AppendLine(@"\renewcommand\myheadingtext{Jahresübersicht}");
-            this.calender.AppendLine(@"\section*{Seminarübersicht}");
-            this.calender.AppendLine(@"\begin{tabularx}{\textwidth+\marginparwidth}{rXl}");
-        }
-
-
-        public void AddToCalender(Course course)
-        {
-            
-            // Hier muss ich die Daten in eine Liste 
-            // in getcalender werden die Daten dann sortiert und in den Stringbuilder geschrieben
-            
-        }
-
-
-        public string GetCalender()
-        {
-            //this.calender.AppendLine(string.Format("{0}@{1}@{2}@{3}@{4}@{5}",cou))
-            this.CloseCalender();
-            return this.calender.ToString();
-        }
-
-        private void CloseCalender()
-        {
-            this.calender.AppendLine(@"\end{tabularx}");
-        }
-    }
-
     public class LatexBuilder
     {
         private static readonly ILog log = LogManager.GetLogger("LatexGenerator");
@@ -62,16 +27,18 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
 
         private TocBuilder tocBuilder = new TocBuilder();
 
+        private CalenderBuilder calenderBuilder = new CalenderBuilder();
+
 
         public LatexData GetLatexCode(List<Course> lehrgangsList)
         {
             var result = new LatexData();
 
-
             var sb = this.CreateMainDocument(lehrgangsList);
 
             result.MainDocument = sb.ToString();
-            result.TableOfContents = tocBuilder.GetToc();
+            result.TableOfContents = this.tocBuilder.GetToc();
+            result.Calender = this.calenderBuilder.GetCalender();
             return result;
         }
 
@@ -132,12 +99,9 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
 
                     this.AddChapterToToc(sb, course);
 
-                    // hier muss das LAbel mit einer ID geseetzt werden und ein Eintrag in mein Toc gemacht werden
                     sb.AppendLine(@"\label{" + course.Dates[0].CourseNo + "}");
                     this.tocBuilder.AddToToc(course);
-                    // Außerdem ein eintrag in die Jahresübersicht
-
-
+                    this.calenderBuilder.AddToCalender(course);
 
                     this.AddLehrgangsData(sb, course);
                 }
