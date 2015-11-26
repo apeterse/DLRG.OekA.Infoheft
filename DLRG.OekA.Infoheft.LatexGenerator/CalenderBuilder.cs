@@ -41,7 +41,7 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             {
                 this.calender.AppendLine(
                     string.Format(
-                        @"{0}@{1}@{2}@{3}@{4}@~\pageref{{{2}}}\\",
+                        @"{0}&{1}&{2}&{3}&{4}&~\pageref{{{2}}}\\",
                         calenderEntry.StartDate.ToString("dd.MM."),
                         calenderEntry.EndDate.ToString("dd.MM."),
                         calenderEntry.CourseNumber,
