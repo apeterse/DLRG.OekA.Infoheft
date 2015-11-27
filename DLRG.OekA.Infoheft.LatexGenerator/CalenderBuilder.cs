@@ -15,7 +15,12 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             this.calender = new StringBuilder();
             this.calender.AppendLine(@"\renewcommand\myheadingtext{Jahresübersicht}");
             this.calender.AppendLine(@"\section*{Seminarübersicht}");
+            this.calender.AppendLine(@"\small");
+            this.calender.AppendLine(@"\changetext{}{}{-1cm}{-1cm}{}");
             this.calender.AppendLine(@"\begin{tabularx}{\textwidth+\marginparwidth}{lllXlr}");
+            this.calender.AppendLine(@"\rowcolor{gray} \textcolor{white}{von} & \textcolor{white}{bis} & \textcolor{white}{Lg-Nr.}&\textcolor{white}{Titel}&\textcolor{white}{Meldeschluss}&\textcolor{white}{Seite} \\");
+            this.calender.AppendLine(@"\endhead");
+
         }
 
 
@@ -26,7 +31,7 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
                 
                 foreach (var coursePart in courseDate.Parts)
                 {
-                    this.calenderEntries.Add(new CalenderEntry() { CheckinDeadline = courseDate.CheckinDeadline, CourseNumber = courseDate.CourseNo, Title = course.Title, StartDate = coursePart.Start, EndDate = coursePart.End});
+                    this.calenderEntries.Add(new CalenderEntry() { CheckinDeadline = courseDate.CheckinDeadline, CourseNumber = courseDate.CourseNo, Title = course.Title, StartDate = coursePart.Start, EndDate = coursePart.End, PageReference = course.Dates[0].CourseNo});
                 }
                 
             }
@@ -41,12 +46,13 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             {
                 this.calender.AppendLine(
                     string.Format(
-                        @"{0}&{1}&{2}&{3}&{4}&~\pageref{{{2}}}\\",
+                        @"{0}&{1}&{2}&{3}&{4}&~\pageref{{{5}}}\\",
                         calenderEntry.StartDate.ToString("dd.MM."),
                         calenderEntry.EndDate.ToString("dd.MM."),
                         calenderEntry.CourseNumber,
                         calenderEntry.Title,
-                        calenderEntry.CheckinDeadline.ToString("dd.MM.yyyy")));
+                        calenderEntry.CheckinDeadline.ToString("dd.MM.yyyy"),
+                        calenderEntry.PageReference));
             }
 
 
@@ -58,6 +64,8 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
         private void CloseCalender()
         {
             this.calender.AppendLine(@"\end{tabularx}");
+            this.calender.AppendLine(@"\changetext{}{}{1cm}{1cm}{}");
+            this.calender.AppendLine(@"\normalsize");
             this.calender.AppendLine(@"\newpage");
         }
     }

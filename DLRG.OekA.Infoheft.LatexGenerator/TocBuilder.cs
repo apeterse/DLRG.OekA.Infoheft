@@ -26,8 +26,7 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
 
         public void AddChapterToToc(Course course)
         {
-            
-            this.tableOfContents.AppendLine(String.Format(@"\rowcolor{{gray}} \hspace{{1em}}& {0} \hfill &  \\",course.Department));
+            this.tableOfContents.AppendLine(String.Format(@"\rowcolor{{gray}} \hspace{{1em}}& \textcolor{{white}}{{{0}}} \hfill &  \\", course.Department));
         }
         
         public string GetToc()

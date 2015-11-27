@@ -13,5 +13,7 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
         public string Title { get; set; }
 
         public DateTime CheckinDeadline { get; set; }
+
+        public string  PageReference { get; set; }
     }
 }
