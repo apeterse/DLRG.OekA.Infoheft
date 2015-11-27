@@ -1,5 +1,4 @@
 %Klassendatei für das Infoheft
-%http://ctan.mackichan.com/info/german/MiKTeX-WinEdt-TrueType-Anleitung/ttf.htm
 
 \usepackage{textpos}
 \usepackage[T1]{fontenc}
@@ -7,12 +6,23 @@
 \pdfmapfile{+roboto.map}
 \usepackage[sfdefault]{roboto}
 
-%Sorgt dafür, das die Titel in Kapitälhen gesetzt werden
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{changepage}
+
+
+
 \usepackage{titlesec}
+\titleformat{\chapter}{\LARGE\normalfont}{}{}{}
 \titleformat{\section}{\LARGE\normalfont}{}{}{}
 \titleformat{\subsection}{\large\itshape}{}{}{}
 
+\usepackage{pdfpages}
 
+\usepackage{titletoc}
+	
+
+\usepackage{ltablex}
 
 %\newcommand{\MyHeadingtext}[1]{\newcommand{\myheadingtext}{#1}}
 \newcommand\myheadingtext{test}
@@ -33,11 +43,31 @@
 \setlength{\marginparwidth}{25mm}
 
 \usepackage{fancyhdr}
+\newpage
 \pagestyle{fancy}
+% \fancypagestyle{main}{%
+% \fancyhead[RO,LE]{\scshape{\myheadingtext}} 
+% \fancyhead[RE,LO]{} 
+% \fancyfoot[LE, RO]{\thepage} 
+% \cfoot{}
+% }
+
+ 
+ \fancyhead[RO,LE]{\scshape{\myheadingtext}} 
+ \fancyhead[RE,LO]{} 
+ \fancyfoot[LE, RO]{\thepage} 
+ \cfoot{}
+
+
+\fancypagestyle{plain}{%
 \fancyhead[RO,LE]{\scshape{\myheadingtext}} 
+\fancyhead[RE,LO]{} 
 \fancyfoot[LE, RO]{\thepage} 
 \cfoot{}
+}
 
+
+%\usepackage[toc]{multitoc} 
 
 
 \newcommand\costcolwidth{0.37\textwidth}
@@ -59,6 +89,18 @@
  #1%
 \end{thinfont}}}
 
+\newcommand*\mygreybox[1]{%
+  \colorbox{gray!50}{\hspace{1em}#1\hfill }}
+
+
+%\titlecontents{chapter}[0pc]{}{}{\scshape\texttf}{\texttf{\textsc{\hfill\contentspage}}}[\addvspace{2pt}]
+%\titlecontents{chapter}[0pc]{}{}{\scshape\texttf{\thecontentspage\hspace{.5cm}\thecontentslabel}}{}[\addvspace{2pt}]
+\titlecontents{chapter}[0pc]{}{}{\mygreybox{\thecontentspage\hspace{.5cm}\thecontentslabel}}{}[\addvspace{2pt}]
+
+
+
+%\titlecontents{section}[0pc]{}{}{\footnotesize}{\hfill\footnotesize\contentspage}[\addvspace{2pt}]
+\titlecontents{section}[0pc]{}{}{\thecontentspage\hspace{.5cm}\thecontentslabel}{}[\addvspace{2pt}]
 
 
 
@@ -82,8 +124,13 @@
 
 \newcommand{\infosection}[1]{%
 \texttf{\scshape{#1}}\par%
+\vspace{6pt}
 }
 
-
-
-
+% \renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+%    {-3.25ex \@plus -1ex \@minus -0.2ex}%
+%    {0.01pt}%
+%    {\raggedsection\normalfont\bfseries\nobreak\size@paragraph}%
+%  }
+ 
+ 
