@@ -1,9 +1,17 @@
 namespace DLRG.OekA.Infoheft.LatexGenerator
 {
+    using System;
+
     using HtmlAgilityPack;
 
     public static class HtmlToLatexExtension
     {
+        private static string wronguuml = "u"+Char.ConvertFromUtf32('\u0308').ToString();
+
+        private static char COMBINING_DIAERESIS = '\u0308';
+
+
+
         public static string TransformHtmlToLatex(this string text)
         {
             return Transform(text).Trim();
@@ -74,9 +82,20 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             text = text.Replace(" &quot;", @" \glqq");
             text = text.Replace("&quot;", @"\grqq");
             text = text.Replace("&#39", "''");
+            //text = text.Replace("â€‹", string.Empty);
             text = text.Replace("&rsquo;", "''");
             text = text.Replace(@"\", @"\\");
             text = text.Replace("\"","''''");
+            text = text.Replace("u"+COMBINING_DIAERESIS, "ü");
+            text = text.Replace("o" + COMBINING_DIAERESIS, "ö");
+            text = text.Replace("a" + COMBINING_DIAERESIS, "ä");
+            text = text.Replace('\u200b'.ToString(), string.Empty);
+            text = text.Replace('\u00AD'.ToString(), string.Empty);
+            text = text.Replace('\u037E'.ToString(), string.Empty);
+            text = text.Replace("&", @"\&");
+
+
+
             //text = text.Replace(((char)int.Parse("BE")).ToString(), ";");
 
 

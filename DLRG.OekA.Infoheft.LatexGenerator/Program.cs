@@ -33,7 +33,7 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
 
             var utf8WithoutBom = new System.Text.UTF8Encoding(false);
             using (StreamWriter sw = new StreamWriter(Path.Combine(Properties.Settings.Default.ExportPath,
-                $"Infoheft{Properties.Settings.Default.StartDate.ToString("YYYY")}.tex"), false, utf8WithoutBom))
+                $"Infoheft{Properties.Settings.Default.StartDate.ToString("yyyy")}.tex"), false, utf8WithoutBom))
             {
                 sw.Write(latexData.MainDocument);
                 sw.Close();
