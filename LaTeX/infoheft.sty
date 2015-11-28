@@ -53,7 +53,7 @@
 % }
 
  
- \fancyhead[RO,LE]{\scshape{\myheadingtext}} 
+ \fancyhead[RO,LE]{\color{gray}\scshape{\myheadingtext}} 
  \fancyhead[RE,LO]{} 
  \fancyfoot[LE, RO]{\thepage} 
  \cfoot{}
@@ -93,14 +93,6 @@
   \colorbox{gray!50}{\hspace{1em}#1\hfill }}
 
 
-%\titlecontents{chapter}[0pc]{}{}{\scshape\texttf}{\texttf{\textsc{\hfill\contentspage}}}[\addvspace{2pt}]
-%\titlecontents{chapter}[0pc]{}{}{\scshape\texttf{\thecontentspage\hspace{.5cm}\thecontentslabel}}{}[\addvspace{2pt}]
-\titlecontents{chapter}[0pc]{}{}{\mygreybox{\thecontentspage\hspace{.5cm}\thecontentslabel}}{}[\addvspace{2pt}]
-
-
-
-%\titlecontents{section}[0pc]{}{}{\footnotesize}{\hfill\footnotesize\contentspage}[\addvspace{2pt}]
-\titlecontents{section}[0pc]{}{}{\thecontentspage\hspace{.5cm}\thecontentslabel}{}[\addvspace{2pt}]
 
 
 
@@ -114,18 +106,31 @@
 
 \newenvironment{detailsdiv}{\begin{minipage}[t][55mm][t]{\textwidth}}{\end{minipage}}
                                             
+% \newcommand*{\seminardetail}[2]{%
+% \begin{tabular}{@{}p{30mm}l}
+%   \texttf{\scshape{#1}}&#2
+%  \end{tabular}
+% }
+
 \newcommand*{\seminardetail}[2]{%
 \begin{tabular}{@{}p{30mm}l}
-  \texttf{\scshape{#1}}&#2
+  \scshape{\textcolor{gray}{#1}}&#2
  \end{tabular}
 }
 
+
 \newcommand*{\dateEntry}[1]{{\Large #1 } \par \vspace{12pt}}
 
+% \newcommand{\infosection}[1]{%
+% \texttf{\scshape{#1}}\par%
+% \vspace{6pt}
+% }
+
 \newcommand{\infosection}[1]{%
-\texttf{\scshape{#1}}\par%
+\textcolor{gray}{\scshape#1}\par%
 \vspace{6pt}
 }
+
 
 % \renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
 %    {-3.25ex \@plus -1ex \@minus -0.2ex}%
