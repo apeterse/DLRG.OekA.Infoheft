@@ -20,7 +20,6 @@ namespace DLRG.OekA.Infoheft.LatexGenerator
             this.calender.AppendLine(@"\begin{tabularx}{\textwidth+\marginparwidth}{lllXlr}");
             this.calender.AppendLine(@"\rowcolor{gray} \textcolor{white}{von} & \textcolor{white}{bis} & \textcolor{white}{Lg-Nr.}&\textcolor{white}{Titel}&\textcolor{white}{Meldeschluss}&\textcolor{white}{Seite} \\");
             this.calender.AppendLine(@"\endhead");
-
         }
 
 
